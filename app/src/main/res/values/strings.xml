@@ -15,7 +15,9 @@
     <string name="igualdade">=</string>
     <string name="subtracao">-</string>
     <string name="adicao">+</string>
-    <string name="multiplicacao">x</string>
-    <string name="divisao">÷</string>
+    <string name="multiplicacao">*</string>
+    <string name="divisao">/</string>
     <string name="limpar">C</string>
+    <string name="operacao_invalida">Operação inválida</string>
+    <string name="digite_operacao_valida">Por favor digite uma operação válida.</string>
 </resources>
