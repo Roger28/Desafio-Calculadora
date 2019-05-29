@@ -1,10 +1,11 @@
 package com.example.calculadora.service
 
+import com.example.calculadora.service.interfaces.Calculadora
 import net.objecthunter.exp4j.ExpressionBuilder
 
-object Calculadora {
+class OperacoesBasicas: Calculadora {
 
-    fun calcule(expressao: String): Double {
+    override fun calcule(expressao: String): Double {
         return ExpressionBuilder(expressao).build().evaluate()
     }
 }

@@ -5,18 +5,21 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
-import com.example.calculadora.service.Calculadora
+import com.example.calculadora.entity.Expressao
+import com.example.calculadora.service.OperacoesBasicas
+import com.example.calculadora.service.interfaces.Calculadora
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var lastDigitWasNumeric: Boolean = false
-    private var isInvalidOperation: Boolean = false
-    private var lastDigitWasDecimalPoint: Boolean = false
+    private lateinit var expressao: Expressao
+    private lateinit var calculadora: Calculadora
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        this.expressao = Expressao()
+        this.calculadora = OperacoesBasicas()
     }
 
     /**
@@ -25,13 +28,13 @@ class MainActivity : AppCompatActivity() {
      * Muda pra verdadeiro se foi pressionado um número
      */
     fun onDigit(v: View) {
-        if (this.isInvalidOperation) {
+        if (this.expressao.isInvalidOperation) {
             textView_user_input.text = (v as Button).text
-            this.isInvalidOperation = false
+            this.expressao.isInvalidOperation = false
         } else {
             textView_user_input.append((v as Button).text)
         }
-        this.lastDigitWasNumeric = true
+        this.expressao.lastDigitWasNumeric = true
     }
 
     /**
@@ -41,10 +44,10 @@ class MainActivity : AppCompatActivity() {
      * Caso tente colocar dois operadores em sequencia, é inflado o alert dialog
      */
     fun onOperator(v: View) {
-        if (this.lastDigitWasNumeric && !this.isInvalidOperation) {
+        if (this.expressao.lastDigitWasNumeric && !this.expressao.isInvalidOperation) {
             textView_user_input.append((v as Button).text)
-            this.lastDigitWasNumeric = false
-            this.lastDigitWasDecimalPoint = false
+            this.expressao.lastDigitWasNumeric = false
+            this.expressao.lastDigitWasDecimalPoint = false
         } else {
             dialog()
         }
@@ -56,10 +59,10 @@ class MainActivity : AppCompatActivity() {
      * Caso tente colocar ponto decimal em sequência, infla o alert dialog
      */
     fun onDecimalPoint(v: View) {
-        if (this.lastDigitWasNumeric && !this.isInvalidOperation && !this.lastDigitWasDecimalPoint) {
+        if (this.expressao.lastDigitWasNumeric && !this.expressao.isInvalidOperation && !this.expressao.lastDigitWasDecimalPoint) {
             textView_user_input.append((v as Button).text)
-            this.lastDigitWasNumeric = false
-            this.lastDigitWasDecimalPoint = false
+            this.expressao.lastDigitWasNumeric = false
+            this.expressao.lastDigitWasDecimalPoint = false
         }else
             dialog()
     }
@@ -70,14 +73,15 @@ class MainActivity : AppCompatActivity() {
      * Caso tente calcular uma expressão inválida, o alert dialog é inflado
      */
     fun onEqual(v: View) {
-        if (this.lastDigitWasNumeric && !isInvalidOperation) {
+        if (this.expressao.lastDigitWasNumeric && !this.expressao.isInvalidOperation) {
             try {
-                val resultado = Calculadora.calcule(textView_user_input.text.toString())
-                textView_output_result.text = resultado.toString()
-                lastDigitWasDecimalPoint = true
+                this.expressao.formula = textView_user_input.text.toString()
+                val result = calculadora.calcule(this.expressao.formula)
+                textView_output_result.text = result.toString()
+                this.expressao.lastDigitWasDecimalPoint = true
             }catch (e: ArithmeticException){
-                this.isInvalidOperation = true
-                this.lastDigitWasNumeric = false
+                this.expressao.isInvalidOperation = true
+                this.expressao.lastDigitWasNumeric = false
             }
         } else {
             dialog()
@@ -91,9 +95,10 @@ class MainActivity : AppCompatActivity() {
     fun onClear(v: View) {
         textView_user_input.text = ""
         textView_output_result.text = ""
-        this.lastDigitWasNumeric = false
-        this.isInvalidOperation = false
-        this.lastDigitWasDecimalPoint = false
+        this.expressao.formula = ""
+        this.expressao.lastDigitWasNumeric = false
+        this.expressao.isInvalidOperation = false
+        this.expressao.lastDigitWasDecimalPoint = false
     }
 
     private fun dialog() {
