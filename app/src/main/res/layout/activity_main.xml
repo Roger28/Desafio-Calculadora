@@ -6,14 +6,24 @@
         android:layout_height="match_parent">
 
     <TextView
-            android:id="@+id/textView_entrada_usuario"
+            android:id="@+id/textView_user_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView_output_result"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_output_result"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:textSize="30sp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"/>
 
     <TableLayout
             android:layout_width="0dp"
@@ -30,7 +40,7 @@
 
             <Button
                     android:layout_width="0dp"
-                    android:layout_height="94dp"
+                    android:layout_height="70dp"
                     android:text="@string/sete"
                     style="?android:attr/buttonBarButtonStyle"
                     android:background="@color/cinza"
@@ -90,7 +100,7 @@
                     android:textSize="30sp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="94dp"
+                    android:layout_height="70dp"
                     android:onClick="onDigit"
                     android:id="@+id/button_quatro"/>
 
@@ -144,7 +154,7 @@
                     android:textSize="30sp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="94dp"
+                    android:layout_height="70dp"
                     android:onClick="onDigit"
                     android:id="@+id/button_um"/>
 
@@ -198,7 +208,7 @@
                     android:textColor="@color/preto"
                     android:textSize="30sp"
                     android:layout_weight="1"
-                    android:layout_height="94dp"
+                    android:layout_height="70dp"
                     android:onClick="onDecimalPoint"
                     android:id="@+id/button_ponto"/>
 
